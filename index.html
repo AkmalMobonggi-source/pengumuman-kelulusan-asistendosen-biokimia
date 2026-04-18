@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Pengumuman Asdos Biokimia</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f9;
+            margin: 0;
+        }
+
+        header {
+            background-color: #0b3d91;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .container {
+            background: white;
+            width: 400px;
+            margin: 50px auto;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+
+        h2 {
+            margin-bottom: 10px;
+        }
+
+        input {
+            width: 90%;
+            padding: 10px;
+            margin: 15px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #0b3d91;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #062c6b;
+        }
+
+        .result-box {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .lulus {
+            background-color: #e6ffed;
+            border: 1px solid #2ecc71;
+            color: #2ecc71;
+        }
+
+        .tidak {
+            background-color: #ffe6e6;
+            border: 1px solid #e74c3c;
+            color: #e74c3c;
+        }
+
+        .footer {
+            margin-top: 30px;
+            font-size: 12px;
+            color: gray;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <img src="logo.png" alt="Logo Kampus" width="80">
+    <h1>PENGUMUMAN HASIL SELEKSI</h1>
+    <p>Asisten Dosen Biokimia 2026</p>
+</header>
+
+<div class="container">
+    <h2>Cek Kelulusan</h2>
+    <p id="countdown" style="font-weight:bold; color:#0b3d91;"></p>
+    <p>Masukkan Nomor Induk Mahasiswa (NIM)</p>
+
+    <input type="text" id="nim" placeholder="Masukkan NIM">
+
+    <br>
+    <button id="btnCek" onclick="cekKelulusan()" disabled>Lihat Hasil</button>
+
+    <div id="hasilBox" class="result-box"></div>
+
+    <div class="footer">
+        Fakultas Kedokteran<br>
+        Universitas Negeri Gorontalo
+    </div>
+</div>
+
+<script>
+    // DATA LULUS (EDIT SESUAI KEBUTUHAN)
+    const dataLulus = [
+        "123456",
+        "654321",
+        "111222"
+    ];
+
+    // SET WAKTU PENGUMUMAN (ubah sesuai kebutuhan)
+const waktuPengumuman = new Date("April 10, 2026 10:00:00").getTime();
+
+const countdown = setInterval(function() {
+    const sekarang = new Date().getTime();
+    const selisih = waktuPengumuman - sekarang;
+
+    if (selisih <= 0) {
+    clearInterval(countdown);
+    document.getElementById("countdown").innerHTML = "Pengumuman sudah dibuka";
+
+    // BUKA LOCK TOMBOL
+    document.getElementById("btnCek").disabled = false;
+
+    return;
+}
+
+    const hari = Math.floor(selisih / (1000 * 60 * 60 * 24));
+    const jam = Math.floor((selisih % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const menit = Math.floor((selisih % (1000 * 60 * 60)) / (1000 * 60));
+    const detik = Math.floor((selisih % (1000 * 60)) / 1000);
+
+    document.getElementById("countdown").innerHTML =
+        "Pengumuman dibuka dalam: " +
+        hari + "h " + jam + "j " + menit + "m " + detik + "d";
+}, 1000);
+
+ // Buat Motivasi PENGUMUMAN (ubah sesuai kebutuhan)
+    function cekKelulusan() {
+
+    // 🔒 VALIDASI WAKTU (taruh paling atas)
+    const sekarang = new Date().getTime();
+    if (sekarang < waktuPengumuman) {
+        alert("Pengumuman belum dibuka!");
+        return;
+    }
+
+    let nim = document.getElementById("nim").value.trim();
+    let box = document.getElementById("hasilBox");
+
+    if (nim === "") {
+        alert("Masukkan NIM terlebih dahulu!");
+        return;
+    }
+
+        box.style.display = "block";
+
+        if (dataLulus.includes(nim)) {
+            box.className = "result-box lulus";
+            box.innerHTML = `
+                <h3>SELAMAT!</h3>
+                <p>NIM: <b>${nim}</b></p>
+                <p>Anda dinyatakan <b>LULUS</b> sebagai<br>Asisten Dosen Biokimia</p>
+                <p style="margin-top:15px; font-size:14px; color:#555;">
+            Selamat berproses!, silahkan menghubungi admin instagram @biokimia.fkung 
+            untuk bisa dimasukkan kedalam grup besar Asisten Dosen Biokimia!
+        </p>
+            `;
+        } else {
+    box.className = "result-box tidak";
+    box.innerHTML = `
+        <h3>HASIL SELEKSI</h3>
+        <p>NIM: <b>${nim}</b></p>
+        <p>Anda dinyatakan <b>TIDAK LULUS</b></p>
+        <p style="margin-top:15px; font-size:14px; color:#555;">
+            Jangan berkecil hati. Kegagalan hari ini adalah bagian dari proses menuju keberhasilan yang lebih besar.
+            Tetap semangat, evaluasi diri, dan coba kembali di kesempatan berikutnya.
+        </p>
+    `;
+}
+    }
+</script>
+
+</body>
+</html>
